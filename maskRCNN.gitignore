@@ -1,0 +1,22 @@
+# maskRCNN.gitignore
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# virtual env
+.env
+.venv
+bmo/
+
+# datasets
+datasets/
+data/
+**/1.Training/
+
+# outputs
+outputs/
+*.pth
+
+# OS
+.DS_Store
