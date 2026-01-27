@@ -272,3 +272,4 @@ TransUNet은 Transformer를 결합하여 글로벌 문맥을 이해할 수 있�
 Mask R-CNN은 의료 영상보다는 일반 객체 탐지 및 인스턴스 분할에 적합합니다.
 
 👉 결론적으로, 의료 영상 분할에서는 U-Net 계열과 TransUNet이 핵심, 3D 데이터는 V-Net, 일반 객체 탐지에는 Mask R-CNN을 선택하는 것이 가장 합리적입니다.
+
