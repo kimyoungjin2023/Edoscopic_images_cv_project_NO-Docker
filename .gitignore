@@ -1,0 +1,19 @@
+# Python
+__pycache__/
+*.pyc
+*.pyo
+
+# Environments
+.env
+.venv
+bmo/
+
+# Data / Outputs
+outputs/
+datasets/
+*.pth
+*.pt
+
+# Mac
+.DS_Store
+
