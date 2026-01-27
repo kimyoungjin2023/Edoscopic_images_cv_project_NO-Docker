@@ -211,3 +211,64 @@ YOLO는 객체 탐지 문제를 단일 회귀 문제로 간주하여, 이미지�
 ## 결론
 
 객체 탐지 기술은 R-CNN부터 시작하여 Fast R-CNN, Faster R-CNN으로 발전하며 정확도와 속도 모두 크게 향상되었습니다. YOLO는 이와는 다른 접근 방식으로 실시간 탐지라는 목표를 달성하며 또 다른 혁신을 가져왔습니다. 각 알고리즘은 고유한 장단점을 가지며, 적용하고자 하는 환경과 요구사항에 따라 적절한 모델을 선택하는 것이 중요합니다.
+
+---
+
+# 🩺 의료 및 일반 이미지 세그멘테이션 모델 비교 분석
+이미지 세그멘테이션은 픽셀 단위로 객체를 분류하는 기술로, 크게 **시맨틱 세그멘테이션(Semantic Segmentation)**과 **인스턴스 세그멘테이션(Instance Segmentation)**으로 나뉩니다. 본 문서에서는 핵심 모델인 U-Net 계열과 Mask R-CNN을 비교합니다.
+
+---
+
+## 1. 모델별 알고리즘 및 특징
+
+### 🟦 U-Net (의료 영상의 표준)
+#### 1. **알고리즘**: U자형 인코더-디코더 구조.
+#### 2. **핵심**: 스킵 연결(Skip Connection). 인코더의 특징 맵을 디코더에 직접 전달하여 소실된 위치 정보를 복구합니다.
+#### 3. **용도**: 데이터가 적은 의료 이미지(세포, 장기 등) 분할.
+![U-Net Algorithm Visualization](images/U-Net.png)
+---
+
+### 🟩 V-Net (3D 데이터 특화)
+#### 1. **알고리즘**: U-Net의 3D 확장판. 2D 필터 대신 3D Convolution 필터를 사용합니다.
+#### 2. **핵심**: **잔차 연결(Residual Connection)**과 Dice Loss를 도입하여 3D 볼륨 데이터(MRI/CT) 학습을 최적화했습니다.
+![V-Net Algorithm Visualization](images/V-Net.png)
+---
+
+### 🟧 U-Net++ (연결 구조의 고도화)
+#### 1. **알고리즘**: 인코더와 디코더 사이의 '의미적 격차'를 줄이기 위해 **조밀한 스킵 연결(Nested Skip Connections)**을 사용합니다.
+#### 2. **핵심**: 단순 점프가 아닌 중간 컨볼루션 레이어들을 거치며 정보를 점진적으로 융합합니다.
+![U-Net++ Algorithm Visualization](images/U-Net++.png)
+---
+
+### 🟪 TransUNet (CNN + Transformer)
+#### 1. **알고리즘**: CNN 인코더 하단에 트랜스포머(Transformer) 블록을 삽입한 하이브리드 모델입니다.
+#### 2. **핵심**: CNN의 좁은 시야(지역성)와 트랜스포머의 넓은 시야(전역 문맥)를 동시에 잡아 복잡한 장기 구조를 파악합니다.
+![TransUNet Algorithm Visualization](images/TransUNet.png)
+---
+
+### 🟥 Mask R-CNN (인스턴스 분할의 대표)
+#### 1. **알고리즘**: 객체 탐지(Faster R-CNN)에 **마스크 브랜치(Mask Branch)**를 추가한 모델입니다.
+#### 2. **핵심**: 개별 객체를 구분합니다. (예: 여러 개의 종양이 있을 때 각각을 개별 번호로 구분). RoIAlign을 통해 픽셀 오차를 최소화합니다.
+![Mask R-CNN Algorithm Visualization](images/Mask%20R-CNN.png)
+---
+
+## 아키텍처 흐름도
+
+![R-CNN, U-Net Mermaid Diagram](images/diagram.png)
+
+|구분|U-Net|V-Net|U-Net++|TransUNet|Mask R-CNN|
+|:--|:--|:--|:--|:--|:--|
+|태스크|Semantic|Semantic|Semantic|Semantic|Instance|
+|차원|2D|3D|2D/3D|2D|2D|
+|핵심 기술|Skip Connection|3D Conv / Dice|Nested Skip|Transformer|RoIAlign / Branch|
+|강점|가볍고 정확함|MRI/CT 최적화|정밀한 경계선|전역 정보 파악|개별 객체 구분|
+|데이터 요구|적음|중간|중간|많음|많음|
+
+---
+## ✅ 결론
+U-Net 계열 (U-Net, U-Net++)은 의료 영상 분할의 기본 구조로, 단순하면서도 강력한 성능을 보여줍니다.
+V-Net은 3D 데이터를 처리할 수 있어 CT/MRI 같은 볼륨 데이터에 최적화되어 있습니다.
+TransUNet은 Transformer를 결합하여 글로벌 문맥을 이해할 수 있어 복잡한 의료 영상에서 강력합니다.
+Mask R-CNN은 의료 영상보다는 일반 객체 탐지 및 인스턴스 분할에 적합합니다.
+
+👉 결론적으로, 의료 영상 분할에서는 U-Net 계열과 TransUNet이 핵심, 3D 데이터는 V-Net, 일반 객체 탐지에는 Mask R-CNN을 선택하는 것이 가장 합리적입니다.
